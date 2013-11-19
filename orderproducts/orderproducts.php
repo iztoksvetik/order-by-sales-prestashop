@@ -72,6 +72,7 @@ class OrderProducts extends Module
 
   public function getContent()
   {
+    $output = '';
     if (Tools::isSubmit('submitorderproducts')) { 
       $categories = '';
       if (Tools::isSubmit('categoryBox')) {
@@ -81,12 +82,14 @@ class OrderProducts extends Module
       Configuration::updateValue('ORDERPRODUCTS_CATS', $categories);
       Configuration::updateValue('ORDERPRODUCTS_VALUE',
           Tools::getValue('ORDERPRODUCTS_VALUE'));
+      $output = $this->displayConfirmation($this->l('Settings updated'));
     }
     if (Tools::isSubmit('shuffleorderproducts')) { 
       $this->reorderProducts();
+      $output = $this->displayConfirmation($this->l('Products reordered'));
     }
     
-    return $this->displayForm();
+    return $output . $this->displayForm();
   }
 
   private function reorderProducts()
